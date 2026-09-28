@@ -30,7 +30,7 @@ except Exception:
 CONFIG_EXCEL = Path(config.get('excel_path', r'C:\Users\USER\Desktop\INTERVENTORIA VELNEC\SMAP\SMAP_VELNEC_2026_JCA.xlsx'))
 SHEET = config.get('sheet_name', 'Tabla SMAP-CIV')
 SYNC_TOKEN = os.environ.get('SMAP_SYNC_TOKEN', config.get('sync_token', 'CAMBIAR_TOKEN_SMAPPRO'))
-PORT = int(os.environ.get('PORT', '8876'))
+PORT = int(os.environ.get('PORT', '10000'))
 HOST = os.environ.get('HOST', '0.0.0.0')
 
 LOCK = threading.Lock()
@@ -222,7 +222,22 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     os.chdir(ROOT)
+
     load_data_file()
-    print(f'SISTEMA SMAP 2026 WEB - http://{HOST}:{PORT}')
-    print(f'Registros iniciales: {len(CACHE["data"])}')
-    ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
+
+    print(f'SISTEMA SMAP 2026 WEB')
+    print(f'Host: {HOST}')
+    print(f'Port: {PORT}')
+    print(f'Registros iniciales: {len(CACHE["data"])}', flush=True)
+
+    server = ThreadingHTTPServer((HOST, PORT), Handler)
+    server.daemon_threads = True
+
+    print(f'Servidor escuchando en http://{HOST}:{PORT}', flush=True)
+
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.server_close()
