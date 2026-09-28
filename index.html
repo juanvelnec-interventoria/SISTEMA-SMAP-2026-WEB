@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SISTEMA SMAP 2026 · Interventoría</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<style>
+:root{--bg:#eef4f3;--panel:#fff;--text:#17333a;--muted:#6c7d82;--line:#d7e2e1;--header:#18363a;--header2:#0e514e;--accent:#2bb8a6;--accent2:#f0b33e;--danger:#d9465f;--warn:#ef9f2e;--info:#3289c7;--violet:#7450c7;--shadow:0 8px 25px rgba(14,55,57,.08);--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}.app{min-height:100vh}.top{background:linear-gradient(120deg,var(--header),var(--header2));color:#fff;padding:17px 22px 0}.brand{display:flex;justify-content:space-between;align-items:center;gap:18px}.brand-left{display:flex;align-items:center;gap:14px}.lamp-logo{width:64px;height:64px;position:relative;flex:0 0 64px;display:flex;align-items:center;justify-content:center;overflow:hidden}.lamp-logo img{width:72px;height:72px;object-fit:contain;display:block;filter:drop-shadow(0 3px 4px rgba(0,0,0,.22))}.brand h1{margin:0;font-size:30px;letter-spacing:.6px}.brand h1 b{color:#58d2c1}.brand p{margin:4px 0 0;font-size:12px;color:#c7dcda}.clock{text-align:right;border-left:1px solid #ffffff2b;padding-left:22px}.clock small{color:#bcd0ce}.clock strong{display:block;font-size:24px;margin:2px 0}.live{font-size:10px;color:#75e0c9}.nav{display:flex;gap:6px;margin-top:16px;overflow:auto}.nav button{border:1px solid #ffffff17;background:#17484a;color:#edf8f7;padding:11px 15px;border-radius:9px 9px 0 0;cursor:pointer;white-space:nowrap;font-weight:700}.nav button.active,.nav button:hover{background:#2bb8a6;color:#0b2e2c}.wrap{max-width:1550px;margin:auto;padding:15px 16px 30px}.filters{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px;display:grid;grid-template-columns:repeat(6,minmax(110px,1fr)) auto;gap:9px;align-items:end}.field label{display:block;text-transform:uppercase;font-size:9px;font-weight:800;color:#63767a;margin:0 0 5px}.field select,.search,.field input{height:38px;width:100%;border:1px solid #cbd9d7;border-radius:8px;padding:0 10px;background:#fff;color:var(--text)}.actions{display:flex;gap:7px}.btn{height:38px;border:0;border-radius:8px;padding:0 13px;font-weight:800;cursor:pointer}.btn-dark{background:#163b3e;color:#fff}.btn-accent{background:#2bb8a6;color:#062d2a}.btn-violet{background:#7450c7;color:#fff}.btn-light{background:#e8f2f1;color:#285055;border:1px solid #cadad8}.subline{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:10px;margin:8px 3px 13px}.view{display:none}.view.active{display:block}.kpis{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 13px;min-height:101px;position:relative;overflow:hidden}.kpi:after{content:"";position:absolute;right:-25px;top:-25px;width:78px;height:78px;border-radius:50%;background:var(--c,#2bb8a6);opacity:.13}.kpi .ico{font-size:19px;color:var(--c,#2bb8a6)}.kpi .num{font-size:26px;font-weight:800;margin:4px 0}.kpi .lbl{font-size:9px;font-weight:800;text-transform:uppercase;color:#607579}.kpi .hint{font-size:9px;color:#8b999c;margin-top:3px}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;margin-top:12px}.panel{grid-column:span 4;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);min-width:0;overflow:hidden;position:relative}.panel.w3{grid-column:span 3}.panel.w4{grid-column:span 4}.panel.w6{grid-column:span 6}.panel.w8{grid-column:span 8}.panel.w12{grid-column:span 12}.panel.hsmall .chart{height:190px}.panel.hnormal .chart{height:270px}.panel.hlarge .chart{height:390px}.panel.dragging{opacity:.45}.panel.drop-target{outline:2px dashed var(--accent)}.panel-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 4px;gap:10px}.panel-head h3{font-size:13px;margin:0}.panel-head span{font-size:9px;color:var(--muted);text-align:right}.panel-body{padding:7px 12px 13px}.chart{height:270px;position:relative}.chart.pie-chart{min-height:235px}.chart.pie-chart canvas{max-width:100%}.table-wrap{overflow:auto;max-height:520px}.data-table{width:100%;border-collapse:collapse;font-size:10px}.data-table th{position:sticky;top:0;background:#183f42;color:#fff;text-align:left;padding:9px 8px;white-space:nowrap;z-index:1}.data-table td{padding:8px;border-bottom:1px solid #e5eceb;white-space:nowrap}.data-table tbody tr:hover{background:#eef8f7;cursor:pointer}.badge{display:inline-flex;padding:4px 7px;border-radius:20px;font-size:8px;font-weight:800}.b-green{background:#d9f5e9;color:#087b4b}.b-red{background:#fde0e4;color:#b32238}.b-orange{background:#fff0d6;color:#a76600}.b-blue{background:#dfefff;color:#176aa1}.b-violet{background:#ebe4fb;color:#5e3bab}.b-gray{background:#edf1f2;color:#637277}.alert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.alert{padding:12px;border:1px solid var(--line);border-radius:10px;background:#fafcfc}.alert strong{display:block;font-size:25px}.alert small{font-size:9px;font-weight:800;color:#65777a}.alert.red{border-left:5px solid var(--danger)}.alert.orange{border-left:5px solid var(--warn)}.alert.blue{border-left:5px solid var(--info)}.alert.violet{border-left:5px solid var(--violet)}.searchrow{display:flex;gap:8px}.searchrow input{flex:1;height:38px;border:1px solid var(--line);border-radius:8px;padding:0 10px}.map-toolbar{display:flex;gap:8px;margin-bottom:8px}.map-toolbar input{flex:1;height:38px;border:1px solid var(--line);border-radius:8px;padding:0 10px}.map-wrap{position:relative}.map{height:620px;border-radius:10px;overflow:hidden;border:1px solid #d5dfde;background:#dfe8e6}.map-note{font-size:9px;color:var(--muted);margin-top:7px}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:9px;color:#627478;margin-top:8px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.map-info{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px;margin-top:8px;font-size:10px}.toolbar-line{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:#ef9f2e;margin-right:5px}.status-dot.ok{background:#27b27e}.footer{text-align:center;font-size:9px;color:#758488;padding:20px}.modal{position:fixed;inset:0;background:#052d2d88;display:none;align-items:center;justify-content:center;z-index:9999}.modal.open{display:flex}.modal-card{width:min(940px,94vw);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;padding:18px;box-shadow:0 25px 80px #0005}.modal-card h2{margin:0}.close{float:right;border:0;background:none;font-size:24px;cursor:pointer}.design-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.design-item{border:1px solid var(--line);border-radius:10px;padding:10px}.design-item b{font-size:10px}.design-input{height:30px;width:78px;border:1px solid var(--line);border-radius:6px;padding:0 7px;font-size:9px}.design-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:7px;font-size:9px;color:var(--muted)}.mini-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.mini-actions button{border:1px solid var(--line);background:#f5f8f8;border-radius:7px;padding:6px 8px;font-size:9px;cursor:pointer}.mini-actions button.active{background:#dff5f1;border-color:#2bb8a6}.colors{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}.colorbox{display:flex;flex-direction:column;gap:4px;font-size:9px;font-weight:700}.colorbox input{width:100%;height:34px;border:1px solid var(--line);border-radius:7px;padding:2px}.note{font-size:10px;color:var(--muted)}.empty{padding:24px;text-align:center;color:#7d8c8f}.tech-warning{padding:12px;border-radius:10px;background:#fff7df;border:1px solid #f0d28d;color:#7a5b0c;font-size:10px}.leaflet-popup-content{font-family:Inter,Arial;font-size:10px}.leaflet-container{font-family:Inter,Arial}
+@media(max-width:1200px){.kpis{grid-template-columns:repeat(4,1fr)}.filters{grid-template-columns:repeat(4,1fr)}.panel.w3,.panel.w4,.panel.w6{grid-column:span 6}.panel.w8,.panel.w12{grid-column:span 12}}
+@media(max-width:720px){.brand h1{font-size:22px}.lamp-logo{width:52px;height:52px;flex-basis:52px}.lamp-logo img{width:60px;height:60px}.clock{display:none}.filters{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.panel,.panel.w3,.panel.w4,.panel.w6,.panel.w8,.panel.w12{grid-column:span 12}.alert-grid{grid-template-columns:1fr 1fr}.design-grid{grid-template-columns:1fr}.colors{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="brand-left"><div class="lamp-logo"><img src="RALED-III-removebg-preview.png" alt="Luminaria LED"></div><div><h1>SISTEMA <b>SMAP</b></h1><p>CONTROL Y SEGUIMIENTO DE SOLICITUDES · INTERVENTORÍA ALUMBRADO PÚBLICO · MEDELLÍN</p></div></div><div class="clock"><small id="today"></small><strong id="time"></strong><span class="live"><span class="status-dot" id="liveDot"></span><span id="liveText">Conectando con Excel local…</span></span></div></div><nav class="nav"><button class="active" data-view="resumen">⌂ Resumen</button><button data-view="smap">▤ SMAP</button><button data-view="ans">◷ ANS</button><button data-view="mapa">⌖ Mapa</button><button data-view="ejecucion">▣ Gestión</button><button data-view="alertas">⚠ Alertas</button><button data-view="analisis">◈ Análisis</button></nav></header>
+<main class="wrap">
+<section class="filters"><div class="field"><label>Año</label><select id="fYear"><option value="ALL">Todos</option></select></div><div class="field"><label>Mes</label><select id="fMonth"><option value="ALL">Todos</option></select></div><div class="field"><label>Comuna</label><select id="fComuna"><option value="ALL">Todas</option></select></div><div class="field"><label>Estado</label><select id="fEstado"><option value="ALL">Todos</option></select></div><div class="field"><label>Nivel ANS</label><select id="fNivel"><option value="ALL">Todos</option></select></div><div class="field"><label>Tipo recorrido</label><select id="fTipo"><option value="ALL">Todos</option></select></div><div class="actions"><button class="btn btn-dark" id="clear">↻ Limpiar</button><button class="btn btn-violet" id="design">⚙ Diseño</button><button class="btn btn-accent" id="refresh">↻ Actualizar</button></div></section>
+<div class="subline"><span id="dataStatus">Cargando fuente local…</span><span id="filterStatus"></span></div>
+<section id="resumen" class="view active"><div class="kpis" id="kpis"></div><div class="grid" id="mainGrid">
+<article class="panel w4" data-panel="estado"><div class="panel-head"><h3>SMAP por estado de gestión</h3><span>Registros actualizados</span></div><div class="panel-body"><div class="chart"><canvas id="cEstado"></canvas></div></div></article>
+<article class="panel w4" data-panel="mes"><div class="panel-head"><h3>SMAP generadas por mes</h3><span>Comportamiento mensual</span></div><div class="panel-body"><div class="chart"><canvas id="cMes"></canvas></div></div></article>
+<article class="panel w4" data-panel="comuna"><div class="panel-head"><h3>SMAP por comuna</h3><span>Top 10</span></div><div class="panel-body"><div class="chart"><canvas id="cComuna"></canvas></div></div></article>
+<article class="panel w6" data-panel="evol"><div class="panel-head"><h3>Generadas vs. con respuesta</h3><span>Por mes</span></div><div class="panel-body"><div class="chart"><canvas id="cEvol"></canvas></div></div></article>
+<article class="panel w3" data-panel="nivel"><div class="panel-head"><h3>Distribución por nivel ANS</h3><span>A / B / C</span></div><div class="panel-body"><div class="chart"><canvas id="cNivel"></canvas></div></div></article>
+<article class="panel w3" data-panel="cumple"><div class="panel-head"><h3>Cumplimiento ANS</h3><span>Respuestas evaluables</span></div><div class="panel-body"><div class="chart"><canvas id="cCumple"></canvas></div></div></article>
+<article class="panel w3" data-panel="venc"><div class="panel-head"><h3>Vencimiento</h3><span>Respuesta EPM</span></div><div class="panel-body"><div class="chart"><canvas id="cVenc"></canvas></div></div></article>
+<article class="panel w3" data-panel="tipo"><div class="panel-head"><h3>Tipo de recorrido</h3><span>Origen</span></div><div class="panel-body"><div class="chart"><canvas id="cTipo"></canvas></div></div></article>
+<article class="panel w6" data-panel="tecnico"><div class="panel-head"><h3>SMAP generadas por interventor</h3><span id="techPeriod">Periodo: todos</span></div><div class="panel-body" id="techPanel"><div class="chart"><canvas id="cTecnico"></canvas></div></div></article>
+<article class="panel w6" data-panel="prioridad"><div class="panel-head"><h3>Centro de control</h3><span>Lectura ejecutiva</span></div><div class="panel-body"><div class="alert-grid" id="summaryAlerts"></div></div></article>
+<article class="panel w12" data-panel="ultimos"><div class="panel-head"><h3>Últimos / principales SMAP</h3><span>Haga clic en una fila para abrir el detalle y localizar el punto</span></div><div class="panel-body"><div class="searchrow"><input id="globalSearch" placeholder="Buscar consecutivo, dirección, barrio, comuna, SS…"><button class="btn btn-accent" id="searchBtn">Buscar</button></div><div class="table-wrap" style="margin-top:9px"><table class="data-table"><thead><tr><th>SMAP</th><th>Fecha</th><th>Dirección</th><th>Barrio</th><th>Comuna</th><th>Nivel</th><th>Estado</th><th>ANS</th><th>Respuesta</th></tr></thead><tbody id="tbody"></tbody></table></div></div></article>
+</div></section>
+<section id="smap" class="view"><article class="panel w12"><div class="panel-head"><h3>Control detallado de solicitudes</h3><span id="detailCount"></span></div><div class="panel-body"><div class="table-wrap" style="max-height:720px"><table class="data-table"><thead><tr><th>SMAP</th><th>Año</th><th>Mes</th><th>Dirección</th><th>Barrio</th><th>Comuna</th><th>Falla</th><th>Recorrido</th><th>Fecha envío</th><th>Estado</th><th>SS</th><th>Nivel</th><th>Días respuesta</th><th>Vencimiento</th><th>Cumple ANS</th><th>Respuesta</th><th>Ejecución</th></tr></thead><tbody id="detailBody"></tbody></table></div></div></article></section>
+<section id="ans" class="view"><div class="kpis" id="ansKpis"></div><div class="grid"><article class="panel w6"><div class="panel-head"><h3>Cumplimiento ANS de entrega de respuesta</h3><span>Cumple / No cumple</span></div><div class="panel-body"><div class="chart"><canvas id="cCumple2"></canvas></div></div></article><article class="panel w6"><div class="panel-head"><h3>Vencimiento de respuesta</h3><span>Vigente / próximo / vencido</span></div><div class="panel-body"><div class="chart"><canvas id="cVenc2"></canvas></div></div></article><article class="panel w12"><div class="panel-head"><h3>Detalle de cumplimiento por nivel</h3><span>Los pendientes de actualización quedan fuera de ANS</span></div><div class="panel-body"><div class="table-wrap"><table class="data-table"><thead><tr><th>Nivel</th><th>Con respuesta</th><th>Cumple</th><th>No cumple</th><th>% cumplimiento</th></tr></thead><tbody id="ansBody"></tbody></table></div></div></article><article class="panel w12"><div class="panel-head"><h3>Estado ANS por SMAP</h3><span>Todas las solicitudes · busque por consecutivo</span></div><div class="panel-body"><div class="searchrow"><input id="ansSearch" placeholder="Buscar consecutivo SMAP…"><button class="btn btn-accent" id="ansSearchBtn">Buscar</button></div><div class="table-wrap" style="margin-top:9px;max-height:650px"><table class="data-table"><thead><tr><th>SMAP</th><th>Nivel</th><th>Fecha envío</th><th>Días respuesta</th><th>Estado ANS</th><th>Cumplimiento</th><th>Fecha respuesta</th></tr></thead><tbody id="ansDetailBody"></tbody></table></div></div></article></div></section>
+<section id="mapa" class="view"><article class="panel w12"><div class="panel-head"><h3>Mapa interactivo de SMAP</h3><span>Latitud y longitud tomadas directamente del Excel maestro</span></div><div class="panel-body"><div class="map-toolbar"><input id="mapSearch" placeholder="Buscar SMAP, No. SS o radicado…"><button class="btn btn-accent" id="mapGo">⌖ Buscar punto</button><button class="btn btn-light" id="mapClear">✕ Borrar selección</button><button class="btn btn-light" id="mapAll">Ver todos</button></div><div class="map-wrap"><div id="map" class="map"></div></div><div class="legend"><span><i class="dot" style="background:#3289c7"></i>Vigente / sin alerta</span><span><i class="dot" style="background:#ef9f2e"></i>Próximo a vencer</span><span><i class="dot" style="background:#d9465f"></i>Vencido</span><span><i class="dot" style="background:#7450c7"></i>Pendiente actualización</span></div><div class="map-info" id="mapInfo">Seleccione un punto o busque un consecutivo.</div><div class="map-note">Los puntos provienen de las coordenadas del Excel maestro. El mapa base requiere conexión a Internet; la lectura del Excel funciona localmente.</div></div></article></section>
+<section id="ejecucion" class="view"><div class="grid"><article class="panel w8"><div class="panel-head"><h3>Estados de gestión y ejecución</h3><span>Distribución actual</span></div><div class="panel-body"><div class="chart"><canvas id="cEjec"></canvas></div></div></article><article class="panel w4"><div class="panel-head"><h3>Tipo de recorrido</h3><span>Origen</span></div><div class="panel-body"><div class="chart"><canvas id="cTipo2"></canvas></div></div></article><article class="panel w12"><div class="panel-head"><h3>Indicadores operativos</h3><span></span></div><div class="panel-body"><div class="alert-grid" id="execCards"></div></div></article></div></section>
+<section id="alertas" class="view"><div class="alert-grid" id="bigAlerts"></div><article class="panel w12" style="margin-top:12px"><div class="panel-head"><h3>Registros que requieren atención</h3><span>Vencidos, próximos, sin respuesta y pendientes de actualización</span></div><div class="panel-body"><div class="table-wrap"><table class="data-table"><thead><tr><th>Prioridad</th><th>SMAP</th><th>Dirección</th><th>Comuna</th><th>Nivel</th><th>Días</th><th>Vencimiento</th><th>Estado</th><th>Observación</th></tr></thead><tbody id="alertBody"></tbody></table></div></div></article></section>
+<section id="analisis" class="view"><div class="grid"><article class="panel w6"><div class="panel-head"><h3>Solicitudes por comuna</h3><span>Comparación territorial</span></div><div class="panel-body"><div class="chart"><canvas id="cComuna2"></canvas></div></div></article><article class="panel w6"><div class="panel-head"><h3>SMAP generadas por mes</h3><span>Filtro actual</span></div><div class="panel-body"><div class="chart"><canvas id="cMes2"></canvas></div></div></article><article class="panel w6"><div class="panel-head"><h3>SMAP por interventor</h3><span id="techPeriod2">Periodo: todos</span></div><div class="panel-body"><div class="chart"><canvas id="cTecnico2"></canvas></div></div></article><article class="panel w6"><div class="panel-head"><h3>Lectura de calidad</h3><span>Actualización y georreferenciación</span></div><div class="panel-body" id="quality"></div></article></div></section>
+<div class="footer">SISTEMA SMAP 2026 · Fuente local: SMAP_VELNEC_2026_JCA.xlsx · Los consecutivos sin Año/Mes/Dirección se clasifican como pendientes de actualización, no como errores.</div>
+</main></div>
+<div class="modal" id="designModal"><div class="modal-card"><button class="close" id="closeDesign">×</button><h2>Diseño y personalización</h2><p class="note">Cambia ancho, alto y orden de cada panel. Los cambios se guardan en este computador. También puedes modificar la paleta usada por las gráficas.</p><h3 style="font-size:12px;margin:15px 0 6px">Paleta de gráficas</h3><div class="colors" id="colors"></div><div class="mini-actions"><button id="resetColors">Restablecer colores</button><button id="resetLayout">Restablecer diseño</button></div><h3 style="font-size:12px;margin:15px 0 6px">Tamaño y orden de paneles</h3><div id="designList" class="design-grid"></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+let raw=[],filtered=[],charts={},map=null,markerLayer=null,selected=null,lastMtime=null;
+const $=id=>document.getElementById(id); const blank=v=>v===null||v===undefined||String(v).trim()===''||['nan','#n/a','none'].includes(String(v).trim().toLowerCase()); const clean=v=>blank(v)?'':String(v).trim();
+const num=v=>{if(blank(v))return null;const n=Number(String(v).replace(',','.'));return Number.isFinite(n)?n:null};
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const fmtDate=v=>{if(blank(v))return '—';let s=String(v);if(/^\d{4}-\d{2}-\d{2}/.test(s)){let [y,m,d]=s.slice(0,10).split('-');return `${d}/${m}/${y}`}return s};
+const pending=r=>!!r.pendienteActualizacion; const updated=r=>!pending(r);
+const colorsDefault=['#2bb8a6','#3289c7','#f0b33e','#d9465f','#7450c7','#2d6a4f'];
+let colors=JSON.parse(localStorage.getItem('smap_colors')||'null')||colorsDefault.slice();
+let layout=JSON.parse(localStorage.getItem('smap_layout')||'null')||{};
+function counts(arr,key){const c={};arr.forEach(r=>{const v=clean(r[key])||'Sin dato';c[v]=(c[v]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1])}
+function badge(v){const x=clean(v)||'—';let c='b-violet';if(x==='Vigente'||x==='Cumple')c='b-blue';if(x==='Próximo a vencer')c='b-orange';if(x==='Vencido'||x==='No Cumple')c='b-red';if(x==='Calculando'||x==='—')c='b-gray';return `<span class="badge ${c}">${esc(x)}</span>`}
+function fillSelect(id,vals,first){const el=$(id),old=el.value;el.innerHTML=`<option value="ALL">${first}</option>`;vals.forEach(v=>{let o=document.createElement('option');o.value=String(v);o.textContent=String(v);el.appendChild(o)});if([...el.options].some(o=>o.value===old))el.value=old}
+function initFilters(){fillSelect('fYear',[...new Set(raw.map(r=>r.anio).filter(v=>!blank(v)))].sort(),'Todos');fillSelect('fMonth',MONTHS.filter(m=>raw.some(r=>clean(r.mes)===m)),'Todos');fillSelect('fComuna',counts(raw.filter(updated),'nombreComuna').map(x=>x[0]),'Todas');fillSelect('fEstado',counts(raw.filter(updated),'estado').map(x=>x[0]),'Todos');fillSelect('fNivel',counts(raw.filter(updated),'nivel').map(x=>x[0]),'Todos');fillSelect('fTipo',counts(raw.filter(updated),'tipoRecorrido').map(x=>x[0]),'Todos');applyFilters()}
+function applyFilters(){selected=null;const y=$('fYear').value,m=$('fMonth').value,c=$('fComuna').value,e=$('fEstado').value,n=$('fNivel').value,t=$('fTipo').value;filtered=raw.filter(r=>(y==='ALL'||String(r.anio)===y)&&(m==='ALL'||clean(r.mes)===m)&&(c==='ALL'||clean(r.nombreComuna)===c)&&(e==='ALL'||clean(r.estado)===e)&&(n==='ALL'||clean(r.nivel||'A')===n)&&(t==='ALL'||clean(r.tipoRecorrido)===t));renderAll();$('filterStatus').textContent=`${filtered.length} visibles · ${filtered.filter(updated).length} actualizados · ${filtered.filter(pending).length} pendientes de actualización`}
+function renderAll(){renderKpis();renderCharts();renderTables();renderAns();renderAlerts();renderExecution();renderQuality();renderMap();}
+function renderKpis(){const up=filtered.filter(updated),p=filtered.filter(pending),resp=up.filter(r=>!blank(r.fechaRespuesta)),nr=up.filter(r=>blank(r.fechaRespuesta)),v=up.filter(r=>clean(r.vencimiento)==='Vencido'),pr=up.filter(r=>clean(r.vencimiento)==='Próximo a vencer'),cum=up.filter(r=>clean(r.cumpleRespuesta)==='Cumple'),noc=up.filter(r=>clean(r.cumpleRespuesta)==='No Cumple');const pct=(cum.length+noc.length)?cum.length/(cum.length+noc.length)*100:0;const av=resp.map(r=>num(r.diasRespuesta)).filter(x=>x!==null&&x>=0);const avg=av.length?av.reduce((a,b)=>a+b,0)/av.length:0;const cards=[['▤',filtered.length,'TOTAL CONSECUTIVOS','Incluye pendientes','#2bb8a6'],['✓',up.length,'ACTUALIZADOS','Con información de gestión','#2d6a4f'],['◌',p.length,'PENDIENTES','No son errores de base','#7450c7'],['◷',resp.length,'CON RESPUESTA','Fecha registrada','#3289c7'],['!',nr.length,'SIN RESPUESTA','Seguimiento EPM','#d9465f'],['⚑',v.length,'VENCIDOS','Respuesta ANS','#d9465f'],['◷',pr.length,'PRÓXIMOS','Prevención','#f0b33e'],['%',pct.toFixed(1)+'%','CUMPLIMIENTO ANS',`${cum.length+noc.length} evaluables · ${avg.toFixed(1)} días promedio`,'#2bb8a6']];$('kpis').innerHTML=cards.map(c=>`<div class="kpi" style="--c:${c[4]}"><div class="ico">${c[0]}</div><div class="num">${c[1]}</div><div class="lbl">${c[2]}</div><div class="hint">${c[3]}</div></div>`).join('');$('summaryAlerts').innerHTML=[['Vencidos',v.length,'red'],['Próximos a vencer',pr.length,'orange'],['Sin respuesta',nr.length,'blue'],['Pendientes actualización',p.length,'violet']].map(x=>`<div class="alert ${x[2]}"><strong>${x[1]}</strong><small>${x[0]}</small></div>`).join('')}
+function chart(id,type,labels,data,extra={}){
+  if(charts[id]) charts[id].destroy();
+  const el=$(id); if(!el) return;
+  const pie=['doughnut','pie'].includes(type);
+  const opts={
+    responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:pie?8:18,right:pie?8:8,left:3,bottom:pie?8:5}},
+    plugins:{
+      legend:{
+        position:pie?'right':'bottom',
+        align:pie?'center':'center',
+        labels:{
+          boxWidth:10,
+          padding:pie?9:8,
+          font:{size:9},
+          generateLabels:pie?function(chart){
+            const ds=chart.data.datasets[0]||{}, arr=ds.data||[], labs=chart.data.labels||[];
+            const total=arr.reduce((a,b)=>a+Number(b||0),0);
+            return labs.map((lab,i)=>({text:`${lab} · ${arr[i]||0} (${total?((arr[i]/total)*100).toFixed(1):'0.0'}%)`,fillStyle:ds.backgroundColor?.[i]||'#999',strokeStyle:'#fff',lineWidth:1,hidden:false,index:i}));
+          }:undefined
+        }
+      },
+      tooltip:{callbacks:{label:ctx=>{
+        const v=ctx.raw||0;
+        if(pie){const arr=ctx.dataset.data||[];const t=arr.reduce((a,b)=>a+Number(b||0),0);const pc=t?((v/t)*100).toFixed(1):'0.0';return ` ${ctx.label}: ${v} (${pc}%)`}
+        return ` ${ctx.dataset.label||'Valor'}: ${v}`;
+      }}}
+    },
+    scales:pie?{}:{
+      x:{ticks:{font:{size:8},maxRotation:40},grid:{display:false}},
+      y:{beginAtZero:true,ticks:{font:{size:8}}}
+    }
+  };
+  if(window.ChartDataLabels){
+    opts.plugins.datalabels={
+      display:true,
+      color:'#17333a',
+      font:{weight:'700',size:pie?9:9},
+      clamp:true,
+      formatter:(v,ctx)=>{
+        if(!pie) return v;
+        const arr=ctx.dataset.data||[], t=arr.reduce((a,b)=>a+Number(b||0),0);
+        const pc=t?(v/t*100):0;
+        if(pc<4) return `${pc.toFixed(1)}%`;
+        return `${v}\n${pc.toFixed(1)}%`;
+      },
+      anchor:pie?'center':'end',
+      align:pie?'center':'top',
+      offset:pie?0:3
+    };
+  }
+  charts[id]=new Chart(el,{type,data:{labels,datasets:data},plugins:window.ChartDataLabels?[ChartDataLabels]:[],options:Object.assign(opts,extra)});
+  if(pie) el.parentElement.classList.add('pie-chart'); else el.parentElement.classList.remove('pie-chart');
+}
+function ds(label,data,colorIndex=0,more={}){return Object.assign({label,data,backgroundColor:colors[colorIndex%colors.length],borderColor:colors[colorIndex%colors.length],borderWidth:1,borderRadius:5},more)}
+function renderCharts(){const up=filtered.filter(updated);let st=counts(up,'estado').slice(0,12);chart('cEstado','bar',st.map(x=>x[0]),[ds('SMAP',st.map(x=>x[1]),0)],{indexAxis:'y'});const mo=MONTHS.map(m=>filtered.filter(r=>clean(r.mes)===m).length);chart('cMes','bar',MONTHS,[ds('SMAP generadas',mo,1)]);const co=counts(up,'nombreComuna').slice(0,10);chart('cComuna','bar',co.map(x=>x[0]),[ds('SMAP',co.map(x=>x[1]),2)],{indexAxis:'y'});const rec=MONTHS.map(m=>filtered.filter(r=>clean(r.mes)===m&&updated(r)).length);const rr=MONTHS.map(m=>filtered.filter(r=>clean(r.mes)===m&&updated(r)&&!blank(r.fechaRespuesta)).length);chart('cEvol','line',MONTHS,[ds('Generadas',rec,1,{fill:false,tension:.25,pointRadius:3}),ds('Con respuesta',rr,0,{fill:false,tension:.25,pointRadius:3})]);const lv=['A','B','C'];chart('cNivel','doughnut',lv,[{label:'SMAP',data:lv.map(x=>up.filter(r=>(clean(r.nivel)||'A')===x).length),backgroundColor:colors.slice(0,3)}]);const cv=counts(up,'cumpleRespuesta').filter(x=>['Cumple','No Cumple'].includes(x[0]));chart('cCumple','doughnut',cv.map(x=>x[0]),[{label:'Respuestas',data:cv.map(x=>x[1]),backgroundColor:[colors[0],colors[3]]}]);const ve=counts(up,'vencimiento').filter(x=>['Vigente','Próximo a vencer','Vencido'].includes(x[0]));chart('cVenc','doughnut',ve.map(x=>x[0]),[{label:'Estado',data:ve.map(x=>x[1]),backgroundColor:[colors[1],colors[2],colors[3]]}]);const ty=counts(up,'tipoRecorrido');chart('cTipo','doughnut',ty.map(x=>x[0]),[{label:'SMAP',data:ty.map(x=>x[1]),backgroundColor:ty.map((_,i)=>colors[i%colors.length])}]);renderTechnician('cTecnico','techPanel');chart('cComuna2','bar',co.map(x=>x[0]),[ds('SMAP',co.map(x=>x[1]),1)],{indexAxis:'y'});chart('cMes2','bar',MONTHS,[ds('SMAP generadas',mo,0)]);renderTechnician('cTecnico2');}
+function currentPeriod(){const y=$('fYear')?.value||'ALL',m=$('fMonth')?.value||'ALL';return `Periodo: ${y==='ALL'?'Todos los años':y}${m==='ALL'?'':' · '+m}`;}
+function renderTechnician(canvasId,containerId){
+ // Cuenta las SMAP por la persona que figura en la columna INTERVENTOR del Excel.
+ // Si el archivo usa el encabezado histórico "Solicitante", el servidor lo entrega
+ // en el mismo campo "interventor" como respaldo. La gráfica responde a los filtros actuales.
+ const source=(filtered||[]);
+ const map=new Map();
+ source.forEach(r=>{
+   const name=String(r.interventor??'').replace(/\s+/g,' ').trim();
+   if(!name) return;
+   const key=name.toLowerCase();
+   const prev=map.get(key);
+   map.set(key,{name:prev?.name||name,count:(prev?.count||0)+1});
+ });
+ const tech=[...map.values()].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,'es',{numeric:true}));
+ const period=currentPeriod();
+ if($('techPeriod')) $('techPeriod').textContent=period;
+ if($('techPeriod2')) $('techPeriod2').textContent=period;
+ const target=containerId?$(containerId):null;
+ if(!tech.length){
+   if(target){target.innerHTML='<div class="tech-warning"><b>No hay SMAP con interventor registrado en los filtros seleccionados.</b><br>La gráfica cuenta las solicitudes usando la columna INTERVENTOR del Excel y responde a los filtros del tablero.</div><div class="chart" style="display:none"><canvas id="'+canvasId+'"></canvas></div>';}
+   else {const old=$(canvasId); if(old) old.parentElement.innerHTML='<div class="tech-warning"><b>No hay SMAP con interventor registrado en los filtros seleccionados.</b><br>La gráfica toma la columna INTERVENTOR del Excel.</div>';}
+   return;
+ }
+ if(target){
+   target.innerHTML='<div class="chart"><canvas id="'+canvasId+'"></canvas></div>';
+ }
+ const el=$(canvasId); if(!el)return;
+ const parent=el.parentElement; parent.style.display='block';
+ chart(canvasId,'bar',tech.map(x=>x.name),[ds('SMAP',tech.map(x=>x.count),0)],{
+   indexAxis:'y',
+   plugins:{legend:{display:false},datalabels:{anchor:'end',align:'right',formatter:v=>v}}
+ });
+}
+function renderTables(){const rows=[...filtered].sort((a,b)=>String(b.consecutivo).localeCompare(String(a.consecutivo),undefined,{numeric:true}));$('tbody').innerHTML=rows.slice(0,80).map(r=>`<tr data-id="${esc(r.consecutivo)}"><td><b>${esc(r.consecutivo)}</b></td><td>${fmtDate(r.fechaEnvio)}</td><td>${esc(r.direccion)||'—'}</td><td>${esc(r.barrio)||'—'}</td><td>${esc(r.nombreComuna||r.comuna)||'—'}</td><td>${esc(r.nivel)||'A'}</td><td>${badge(pending(r)?'Pendiente actualización':r.estado)}</td><td>${badge(r.vencimiento)}</td><td>${blank(r.fechaRespuesta)?'<span class="badge b-gray">Sin respuesta</span>':fmtDate(r.fechaRespuesta)}</td></tr>`).join('');$('detailCount').textContent=`${rows.length} registros visibles`;$('detailBody').innerHTML=rows.map(r=>`<tr data-id="${esc(r.consecutivo)}"><td><b>${esc(r.consecutivo)}</b></td><td>${esc(r.anio)||'—'}</td><td>${esc(r.mes)||'—'}</td><td>${esc(r.direccion)||'—'}</td><td>${esc(r.barrio)||'—'}</td><td>${esc(r.nombreComuna||r.comuna)||'—'}</td><td>${esc(r.fallaSmap||r.falla)||'—'}</td><td>${esc(r.tipoRecorrido)||'—'}</td><td>${fmtDate(r.fechaEnvio)}</td><td>${badge(pending(r)?'Pendiente actualización':r.estado)}</td><td>${esc(r.noSS)||'—'}</td><td>${esc(r.nivel)||'A'}</td><td>${esc(r.diasRespuesta)||'—'}</td><td>${badge(r.vencimiento)}</td><td>${badge(r.cumpleRespuesta)}</td><td>${fmtDate(r.fechaRespuesta)}</td><td>${fmtDate(r.fechaEjec)}</td></tr>`).join('');document.querySelectorAll('tr[data-id]').forEach(tr=>tr.addEventListener('click',()=>selectRecord(tr.dataset.id)))}
+function renderAns(){const up=filtered.filter(updated),resp=up.filter(r=>!blank(r.fechaRespuesta)),cum=resp.filter(r=>clean(r.cumpleRespuesta)==='Cumple'),noc=resp.filter(r=>clean(r.cumpleRespuesta)==='No Cumple'),pct=(cum.length+noc.length)?cum.length/(cum.length+noc.length)*100:0;$('ansKpis').innerHTML=[['% Cumplimiento',pct.toFixed(1)+'%','#2bb8a6'],['Cumple',cum.length,'#2d6a4f'],['No cumple',noc.length,'#d9465f'],['Evaluables',cum.length+noc.length,'#3289c7']].map(x=>`<div class="kpi" style="--c:${x[2]}"><div class="num">${x[1]}</div><div class="lbl">${x[0]}</div><div class="hint">Respuestas con fecha registrada</div></div>`).join('');const lv=['A','B','C'];$('ansBody').innerHTML=lv.map(l=>{const a=resp.filter(r=>(clean(r.nivel)||'A')===l),c=a.filter(r=>clean(r.cumpleRespuesta)==='Cumple').length,n=a.filter(r=>clean(r.cumpleRespuesta)==='No Cumple').length,p=(c+n)?c/(c+n)*100:0;return `<tr><td><b>Nivel ${l}</b></td><td>${a.length}</td><td>${c}</td><td>${n}</td><td>${p.toFixed(1)}%</td></tr>`}).join('');chart('cCumple2','doughnut',['Cumple','No Cumple'],[{label:'Respuestas',data:[cum.length,noc.length],backgroundColor:[colors[0],colors[3]]}]);chart('cVenc2','doughnut',['Vigente','Próximo a vencer','Vencido'],[{label:'Estado',data:['Vigente','Próximo a vencer','Vencido'].map(x=>up.filter(r=>clean(r.vencimiento)===x).length),backgroundColor:[colors[1],colors[2],colors[3]]}]);renderAnsDetail();}
+function renderAnsDetail(){const q=(($('ansSearch')&&$('ansSearch').value)||'').trim().toLowerCase();const rows=filtered.filter(r=>!q||String(r.consecutivo||'').toLowerCase().includes(q));$('ansDetailBody').innerHTML=rows.map(r=>{const pendingAns=pending(r);const estado=pendingAns?'Pendiente actualización':(clean(r.vencimiento)||'Sin clasificar');const cumplimiento=pendingAns?'Pendiente actualización':(clean(r.cumpleRespuesta)||'Sin evaluar');return `<tr data-id="${esc(r.consecutivo)}"><td><b>${esc(r.consecutivo)}</b></td><td>${esc(r.nivel)||'A'}</td><td>${fmtDate(r.fechaEnvio)}</td><td>${esc(r.diasRespuesta)||'—'}</td><td>${badge(estado)}</td><td>${badge(cumplimiento)}</td><td>${blank(r.fechaRespuesta)?'—':fmtDate(r.fechaRespuesta)}</td></tr>`}).join('');document.querySelectorAll('#ansDetailBody tr').forEach(tr=>tr.addEventListener('click',()=>selectRecord(tr.dataset.id)));}
+
+function renderAlerts(){const up=filtered.filter(updated),v=up.filter(r=>clean(r.vencimiento)==='Vencido'),p=up.filter(r=>clean(r.vencimiento)==='Próximo a vencer'),nr=up.filter(r=>blank(r.fechaRespuesta)),pa=filtered.filter(pending);$('bigAlerts').innerHTML=[['Vencidos',v.length,'red','Atención'],['Próximos a vencer',p.length,'orange','Preventivo'],['Sin respuesta',nr.length,'blue','Seguimiento EPM'],['Pendientes actualización',pa.length,'violet','No son errores']].map(x=>`<div class="alert ${x[2]}"><strong>${x[1]}</strong><small>${x[0]} · ${x[3]}</small></div>`).join('');const arr=[...v,...p,...nr.filter(r=>!v.includes(r)&&!p.includes(r)),...pa].slice(0,250);$('alertBody').innerHTML=arr.map(r=>{const pr=pending(r)?'ACTUALIZAR':clean(r.vencimiento)==='Vencido'?'ALTA':clean(r.vencimiento)==='Próximo a vencer'?'MEDIA':'SEGUIMIENTO';return `<tr data-id="${esc(r.consecutivo)}"><td>${badge(pr)}</td><td><b>${esc(r.consecutivo)}</b></td><td>${esc(r.direccion)||'—'}</td><td>${esc(r.nombreComuna||r.comuna)||'—'}</td><td>${esc(r.nivel)||'A'}</td><td>${esc(r.diasRespuesta)||'—'}</td><td>${badge(r.vencimiento)}</td><td>${badge(pending(r)?'Pendiente actualización':r.estado)}</td><td>${esc(r.observaciones)||'Sin observación'}</td></tr>`}).join('');document.querySelectorAll('#alertBody tr').forEach(tr=>tr.addEventListener('click',()=>selectRecord(tr.dataset.id)))}
+function renderExecution(){const up=filtered.filter(updated),exec=up.filter(r=>clean(r.estado).includes('EJECUCION')).length,closed=up.filter(r=>clean(r.estado).includes('CERRADA')).length,design=up.filter(r=>clean(r.estado).includes('DISEÑO')).length,maint=up.filter(r=>clean(r.estado).includes('MANTENIMIENTO')).length;const st=counts(up,'estado').slice(0,12);chart('cEjec','bar',st.map(x=>x[0]),[ds('SMAP',st.map(x=>x[1]),4)],{indexAxis:'y'});chart('cTipo2','bar',counts(up,'tipoRecorrido').map(x=>x[0]),[ds('SMAP',counts(up,'tipoRecorrido').map(x=>x[1]),0)]);$('execCards').innerHTML=[['Ejecución',exec,'green'],['Cerradas',closed,'blue'],['Diseño',design,'violet'],['Mantenimiento',maint,'orange']].map(x=>`<div class="alert ${x[2]}"><strong>${x[1]}</strong><small>${x[0]}</small></div>`).join('')}
+function renderQuality(){const total=filtered.length,p=filtered.filter(pending).length,coord=filtered.filter(r=>num(r.lat)!==null&&num(r.lon)!==null).length,addr=filtered.filter(r=>!blank(r.direccion)).length;$('quality').innerHTML=`<div class="alert-grid"><div class="alert"><strong>${total}</strong><small>Consecutivos</small></div><div class="alert violet"><strong>${p}</strong><small>Pendientes de actualización</small></div><div class="alert blue"><strong>${coord}</strong><small>Con coordenadas válidas</small></div><div class="alert"><strong>${addr}</strong><small>Con dirección</small></div></div><p class="note" style="margin-top:12px">Regla de calidad: un consecutivo existente sin Año/Mes/Dirección es un registro <b>pendiente de actualización</b>. No se marca como error ni incumplimiento ANS.</p>`}
+function initMap(){if(map)return;map=L.map('map',{preferCanvas:true,zoomControl:true}).setView([6.2442,-75.5812],12);L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'© Esri, HERE, Garmin, Intermap, increment P Corp., GEBCO, USGS, FAO, NPS, NRCAN, GeoBase, IGN, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), OpenStreetMap contributors'}).addTo(map);markerLayer=L.layerGroup().addTo(map)}
+function pointColor(r){if(pending(r))return colors[4];if(clean(r.vencimiento)==='Vencido')return colors[3];if(clean(r.vencimiento)==='Próximo a vencer')return colors[2];return colors[1]}
+function renderMap(){
+ if(!map)return;
+ markerLayer.clearLayers();
+ const rows=[...filtered];
+ if(selected && !rows.some(r=>String(r.consecutivo).toLowerCase()===String(selected.consecutivo).toLowerCase())) rows.push(selected);
+ const pts=[];
+ rows.forEach(r=>{
+   const lat=num(r.lat),lon=num(r.lon); if(lat===null||lon===null)return;
+   const isSelected=selected&&String(r.consecutivo).toLowerCase()===String(selected.consecutivo).toLowerCase();
+   const mk=L.circleMarker([lat,lon],{
+     radius:isSelected?11:6,
+     color:isSelected?'#111827':'#fff',
+     weight:isSelected?4:1.5,
+     fillColor:isSelected?'#ffd21f':pointColor(r),
+     fillOpacity:1,
+     opacity:1
+   });
+   mk.bindPopup(`<b>${esc(r.consecutivo)}</b><br>${esc(r.direccion)||'Sin dirección'}<br>Comuna: ${esc(r.nombreComuna||r.comuna)||'—'}<br>Nivel: ${esc(r.nivel)||'A'}<br>Estado: ${esc(pending(r)?'Pendiente actualización':r.estado)||'—'}<br>ANS: ${esc(r.vencimiento)||'—'}${!blank(r.noSS)?`<br>No. SS: ${esc(r.noSS)}`:''}`);
+   mk.on('click',()=>{selected=r;showMapInfo(r);mk.openPopup()});
+   mk.addTo(markerLayer); pts.push([lat,lon]);
+ });
+ if(pts.length&&!selected){const bounds=L.latLngBounds(pts);map.fitBounds(bounds.pad(.08),{maxZoom:15})}
+ $('mapInfo').textContent=`${pts.length} puntos georreferenciados según los filtros actuales.${selected?' Punto de búsqueda resaltado en amarillo.':''}`;
+}
+function showMapInfo(r){$('mapInfo').innerHTML=`<b>${esc(r.consecutivo)}</b> · ${esc(r.direccion)||'Sin dirección'} · ${esc(r.nombreComuna||r.comuna)||'—'} · Nivel ${esc(r.nivel)||'A'} · ${esc(r.vencimiento)||'—'} · Lat ${esc(r.lat)} / Lon ${esc(r.lon)}`}
+function selectRecord(id){
+ const r=raw.find(x=>String(x.consecutivo).toLowerCase()===String(id).toLowerCase());
+ if(!r)return;
+ selected=r;
+ document.querySelector('[data-view="mapa"]').click();
+ setTimeout(()=>{
+   if(!map)return;
+   renderMap();
+   const lat=num(r.lat),lon=num(r.lon);
+   if(lat!==null&&lon!==null){map.setView([lat,lon],17);showMapInfo(r)}
+   else $('mapInfo').innerHTML=`<b>${esc(r.consecutivo)}</b> no tiene coordenadas válidas.`;
+ },120);
+}
+function searchGlobal(){
+ const q=$('globalSearch').value.toLowerCase().trim(); if(!q)return;
+ const r=raw.find(x=>Object.values(x).some(v=>!blank(v)&&String(v).toLowerCase().includes(q)));
+ if(r)selectRecord(r.consecutivo); else alert('No se encontró el registro.');
+}
+function clearMapSelection(){selected=null; const inp=$('mapSearch'); if(inp) inp.value=''; if(map){map.invalidateSize();renderMap(); const pts=filtered.map(r=>[num(r.lat),num(r.lon)]).filter(p=>p[0]!==null&&p[1]!==null); if(pts.length) map.fitBounds(L.latLngBounds(pts).pad(.08),{maxZoom:15});} $('mapInfo').textContent='Selección borrada. Mostrando los puntos según los filtros actuales.';}
+function searchMap(){
+ const q=$('mapSearch').value.trim().toLowerCase(); if(!q)return;
+ const fields=['consecutivo','noSS','radicadoResp','oficio','radicado','ssRevision','radEjec','fechaSS'];
+ const normQ=q.replace(/[\s\-.]/g,''); let r=raw.find(x=>fields.some(k=>!blank(x[k])&&String(x[k]).toLowerCase().trim()===q)); if(!r) r=raw.find(x=>fields.some(k=>!blank(x[k])&&String(x[k]).toLowerCase().replace(/[\s\-.]/g,'')===normQ));
+ if(!r) r=raw.find(x=>fields.some(k=>!blank(x[k])&&String(x[k]).toLowerCase().includes(q)));
+ if(r)selectRecord(r.consecutivo); else alert('No se encontró SMAP, No. SS o radicado con ese valor.');
+}
+async function fetchData(){try{const res=await fetch('/api/data?ts='+Date.now(),{cache:'no-store'});const j=await res.json();if(!res.ok)throw new Error(j.error||'Error de lectura');raw=j.data||[];lastMtime=j.meta?.cache_mtime||null;initFilters();$('liveDot').classList.add('ok');$('liveText').textContent=j.meta?.refreshing?'Excel local · actualizando…':'Excel conectado · actualización local automática';$('dataStatus').textContent=`Fuente: ${j.meta?.excel_path||'Excel local'} · ${raw.length} consecutivos · ${j.meta?.refreshing?'actualización en segundo plano…':'datos actualizados'}`;}catch(e){$('liveText').textContent='No se pudo leer el Excel local';$('liveDot').classList.remove('ok');$('dataStatus').textContent=e.message;}}
+async function refreshNow(){ $('refresh').disabled=true; $('refresh').textContent='↻ Actualizando…'; try{await fetch('/api/refresh?ts='+Date.now(),{cache:'no-store'}); for(let i=0;i<24;i++){await new Promise(r=>setTimeout(r,250));await fetchData();const m=await fetch('/api/meta?ts='+Date.now(),{cache:'no-store'}).then(r=>r.json());if(!m.refreshing&&m.cache_mtime===m.mtime)break;}}finally{$('refresh').disabled=false;$('refresh').textContent='↻ Actualizar';if(document.getElementById('mapa').classList.contains('active')){initMap();setTimeout(()=>{map.invalidateSize();renderMap()},80)}}}
+async function checkFile(){try{const r=await fetch('/api/meta?ts='+Date.now(),{cache:'no-store'}),j=await r.json();if(j.mtime&&j.cache_mtime&&j.mtime!==j.cache_mtime&&!j.refreshing){$('liveText').textContent='Excel local · cambio detectado, actualizando…';await fetch('/api/refresh?ts='+Date.now(),{cache:'no-store'});for(let i=0;i<40;i++){await new Promise(r=>setTimeout(r,250));const m=await fetch('/api/meta?ts='+Date.now(),{cache:'no-store'}).then(r=>r.json());if(!m.refreshing&&m.cache_mtime===m.mtime){await fetchData();if(document.getElementById('mapa').classList.contains('active')){initMap();setTimeout(()=>{map.invalidateSize();renderMap()},80)}break;}}}}catch(e){}}
+function designUI(){
+ const list=$('designList');
+ const panels=[...document.querySelectorAll('.panel[data-panel]')];
+ const widths=[['w3','25%'],['w4','33%'],['w6','50%'],['w8','67%'],['w12','100%']];
+ const heights=[['hsmall','Bajo'],['hnormal','Normal'],['hlarge','Alto']];
+ list.innerHTML=panels.map((p,i)=>{
+   const key=p.dataset.panel, cfg=layout[key]||{};
+   const customW=cfg.customW||'', customH=cfg.customH||'', ord=cfg.order??(i+1);
+   return `<div class="design-item">
+     <b>${esc(p.querySelector('h3')?.textContent||key)}</b>
+     <div class="mini-actions">${widths.map(([c,l])=>`<button data-act="w" data-val="${c}" data-key="${key}" class="${p.classList.contains(c)?'active':''}">${l}</button>`).join('')}</div>
+     <div class="mini-actions">${heights.map(([c,l])=>`<button data-act="h" data-val="${c}" data-key="${key}" class="${p.classList.contains(c)?'active':''}">${l}</button>`).join('')}</div>
+     <div class="design-row">
+       <label>Orden <input class="design-input" type="number" min="1" max="99" data-field="order" data-key="${key}" value="${ord}"></label>
+       <label>Ancho % <input class="design-input" type="number" min="25" max="100" step="1" data-field="customW" data-key="${key}" value="${customW}" placeholder="auto"></label>
+       <label>Alto px <input class="design-input" type="number" min="160" max="900" step="10" data-field="customH" data-key="${key}" value="${customH}" placeholder="auto"></label>
+     </div>
+   </div>`
+ }).join('');
+ list.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+   const p=document.querySelector(`.panel[data-panel="${CSS.escape(b.dataset.key)}"]`); if(!p)return;
+   const cfg=layout[b.dataset.key]||{};
+   if(b.dataset.act==='w'){
+     widths.forEach(([c])=>p.classList.remove(c)); p.classList.add(b.dataset.val); cfg.w=b.dataset.val; delete cfg.customW;
+   } else { heights.forEach(([c])=>p.classList.remove(c)); p.classList.add(b.dataset.val); cfg.h=b.dataset.val; delete cfg.customH; }
+   layout[b.dataset.key]=cfg; localStorage.setItem('smap_layout',JSON.stringify(layout)); applyLayout(); designUI(); renderAll();
+ }));
+ list.querySelectorAll('input[data-field]').forEach(inp=>inp.addEventListener('change',()=>{
+   const key=inp.dataset.key, field=inp.dataset.field, val=inp.value;
+   layout[key]=layout[key]||{};
+   if(field==='order'){layout[key].order=Math.max(1,Math.min(99,Number(val)||1));}
+   if(field==='customW'){layout[key].customW=val?Math.max(25,Math.min(100,Number(val))):null;}
+   if(field==='customH'){layout[key].customH=val?Math.max(160,Math.min(900,Number(val))):null;}
+   localStorage.setItem('smap_layout',JSON.stringify(layout)); applyLayout(); renderAll();
+ }));
+ panels.forEach(p=>{
+   p.draggable=true;
+   p.ondragstart=()=>p.classList.add('dragging');
+   p.ondragend=()=>p.classList.remove('dragging');
+   p.ondragover=e=>{e.preventDefault();p.classList.add('drop-target')};
+   p.ondragleave=()=>p.classList.remove('drop-target');
+   p.ondrop=e=>{e.preventDefault();p.classList.remove('drop-target');const d=document.querySelector('.panel.dragging');if(d&&d!==p){p.parentNode.insertBefore(d,p);saveOrder()}}
+ });
+}
+function saveOrder(){document.querySelectorAll('.grid').forEach(g=>{const ids=[...g.querySelectorAll('.panel[data-panel]')].map(p=>p.dataset.panel);layout._order=ids;localStorage.setItem('smap_layout',JSON.stringify(layout))})}
+function applyLayout(){
+ document.querySelectorAll('.panel[data-panel]').forEach((p,i)=>{
+   const x=layout[p.dataset.panel]||{};
+   if(x.w){['w3','w4','w6','w8','w12'].forEach(c=>p.classList.remove(c));p.classList.add(x.w)}
+   if(x.h){['hsmall','hnormal','hlarge'].forEach(c=>p.classList.remove(c));p.classList.add(x.h)}
+   p.style.order=Number.isFinite(Number(x.order))?Number(x.order):i+1;
+   p.style.gridColumn=x.customW?`span ${Math.max(3,Math.min(12,Math.round(Number(x.customW)/100*12)) )}`:'';
+   p.style.minHeight=x.customH?`${Math.max(160,Math.min(900,Number(x.customH)))}px`:'';
+   const chartEl=p.querySelector('.chart');
+   if(chartEl && x.customH){chartEl.style.height=`${Math.max(160,Math.min(900,Number(x.customH)-55))}px`}
+   else if(chartEl){chartEl.style.height=''}
+ });
+}
+function colorsUI(){const labels=['Principal','Secundario','Acento','Alerta','Violeta','Apoyo'];$('colors').innerHTML=labels.map((l,i)=>`<label class="colorbox">${l}<input type="color" data-ci="${i}" value="${colors[i]}"></label>`).join('');$('colors').querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{colors[Number(inp.dataset.ci)]=inp.value;localStorage.setItem('smap_colors',JSON.stringify(colors));renderAll()}))}
+function resetColors(){colors=colorsDefault.slice();localStorage.setItem('smap_colors',JSON.stringify(colors));colorsUI();renderAll()}
+function resetLayout(){layout={};localStorage.setItem('smap_layout','{}');location.reload()}
+function tabs(){document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(b.dataset.view).classList.add('active');if(b.dataset.view==='mapa'){setTimeout(()=>{initMap();map.invalidateSize();renderMap()},80)}if(b.dataset.view==='analisis'){setTimeout(()=>{renderCharts();renderQuality();applyLayout()},80)}if(b.dataset.view==='ans'){setTimeout(()=>{renderAns();applyLayout()},50)}}))}
+function clock(){const d=new Date();$('today').textContent=d.toLocaleDateString('es-CO',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});$('time').textContent=d.toLocaleTimeString('es-CO',{hour12:false})}
+['fYear','fMonth','fComuna','fEstado','fNivel','fTipo'].forEach(id=>$(id).addEventListener('change',applyFilters));$('clear').addEventListener('click',()=>{['fYear','fMonth','fComuna','fEstado','fNivel','fTipo'].forEach(id=>$(id).value='ALL');applyFilters()});$('refresh').addEventListener('click',refreshNow);$('searchBtn').addEventListener('click',searchGlobal);$('ansSearchBtn').addEventListener('click',renderAnsDetail);$('ansSearch').addEventListener('input',renderAnsDetail);$('ansSearch').addEventListener('keydown',e=>{if(e.key==='Enter')renderAnsDetail()});$('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchGlobal()});$('mapGo').addEventListener('click',searchMap);$('mapClear').addEventListener('click',clearMapSelection);$('mapSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchMap()});$('mapAll').addEventListener('click',()=>{if(map){map.invalidateSize();renderMap()}});$('design').addEventListener('click',()=>{$('designModal').classList.add('open');applyLayout();colorsUI();designUI()});$('closeDesign').addEventListener('click',()=>$('designModal').classList.remove('open'));$('resetColors').addEventListener('click',resetColors);$('resetLayout').addEventListener('click',resetLayout);tabs();clock();setInterval(clock,1000);applyLayout();(async()=>{try{const d=await fetch('demo_data.json',{cache:'no-store'}).then(r=>r.json());raw=d.data||d||[];initFilters();$('liveText').textContent='Excel local · sincronizando…';}catch(e){} await fetchData();})();setInterval(checkFile,5000);
+</script></body></html>
