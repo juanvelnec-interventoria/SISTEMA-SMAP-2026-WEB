@@ -91,7 +91,7 @@ PORT = int(
 
 SYNC_TOKEN = os.environ.get(
     "SMAP_SYNC_TOKEN",
-    "CAMBIAR_TOKEN_SMAPPRO"
+    "SMAP2026_SYNC_751_VELNEC"
 )
 
 
